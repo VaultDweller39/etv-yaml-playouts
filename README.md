@@ -12,6 +12,8 @@ If you find inconsistencies or have improvements, please contribute via pull req
 
 
 ## Revision History
+- **2025-06-23**: Added `repeat` parameter to sequence instructions.
+- **2025-06-13_1**: Fixed key alignment.
 - **2025-06-13**: Initial version created
 
 ## Table of Contents
@@ -75,9 +77,9 @@ Every YAML playout follows this basic structure:
 ```yaml
 content:    # Define your media sources
   - search:
-      key: "MY_CONTENT"
-      query: "type:episode AND show_title:\"My Show\""
-      order: "shuffle"
+    key: "MY_CONTENT"
+    query: "type:episode AND show_title:\"My Show\""
+    order: "shuffle"
 
 sequence:   # Optional: Create reusable instruction blocks
   - key: "MORNING_BLOCK"
@@ -151,11 +153,13 @@ content:
 ```
 
 **Parameters:**
+
 - `key` (required): Unique name for this content source
 - `guids` (required): List of show identifiers
 - `order` (required): `"chronological"` or `"shuffle"`
 
 **Supported Sources:**
+
 - `tvdb` - The TV Database IDs
 - `imdb` - Internet Movie Database IDs
 
@@ -441,7 +445,18 @@ playout:
   
   # Execute sequence with shuffled order
   - shuffle_sequence: "VARIETY_BLOCK"
+
+  # Repeat a sequence multiple times
+  - sequence: "SHOW_BLOCK"
+    repeat: 4  # Executes SHOW_BLOCK 4 times in a row
 ```
+Repeat Parameter:
+
+* `repeat` (optional, default: 1): When set on a sequence or shuffle_sequence playout instruction, it repeats that sequence the specified number of times.
+
+* If omitted, the sequence will be executed once.
+
+* Applies to both sequence and shuffle_sequence instructions.
 
 ### EPG Grouping
 
